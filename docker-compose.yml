@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  telegram-bot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: telegram-bot
+    restart: unless-stopped
+    environment:
+      - BOT_TOKEN=${BOT_TOKEN}
+      - CHAT_ID=${CHAT_ID}
+    volumes:
+      - ./logs:/app/logs
+    env_file:
+      - .env
+    networks:
+      - telegram-bots
+networks:
+  telegram-bots:
+    driver: bridge
