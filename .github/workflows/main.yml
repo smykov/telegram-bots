@@ -1,0 +1,28 @@
+name: Deployment
+
+concurrency: production
+
+on:
+  push:
+    branches:
+      - master
+jobs:            
+  production-deploy:
+    if: github.ref_name == 'master'
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: deploy
+        env:
+          ENV: prod
+          WORK_DIR: ${{ vars.WORK_DIR }}
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          CHAT_ID: ${{ secrets.CHAT_ID }}
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          envs: ENV,WORK_DIR,BOT_TOKEN,CHAT_ID
+          script : $WORK_DIR/deploy.sh  
