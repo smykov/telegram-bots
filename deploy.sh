@@ -21,7 +21,7 @@ cd "$WORK_DIR" || exit 1
 
 # 3. Обновление репозитория
 log "Обновление репозитория..."
-git pull origin main
+git pull origin master
 
 # 4. Проверка наличия файла .env и загрузка переменных
 if [ ! -f ".env" ]; then
